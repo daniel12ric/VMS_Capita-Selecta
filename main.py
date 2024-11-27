@@ -77,9 +77,9 @@ def login():
             elif userData['roleid'] == 'user':
                 return redirect(url_for('akun.user'))
             elif userData['roleid'] == 'vendor':
-                return redirect(url_for('vendor.vendors'))
+                return redirect(url_for('vendor_bp.vendors'))
             elif userData['roleid'] == 'branch':
-                return redirect(url_for('branch.branchs'))
+                return redirect(url_for('branch_bp.branchs'))
         else:
             return render_template('404.html')
     return render_template('login.html')
@@ -99,6 +99,3 @@ def logout():
         r.delete(session_id)
         session.pop('session_id', None)
     return redirect('/login')
-
-if __name__ == "__main__":
-    app.run(debug=True)
