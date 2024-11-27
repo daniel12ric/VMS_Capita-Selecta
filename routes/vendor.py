@@ -3,7 +3,7 @@ from controller.vendor_control import VendorModel, akunColl
 from controller.order_control import OrderModel
 from config import r
 
-vendor_bp = Blueprint("vendor_bp", __name__)
+vendor_bp = Blueprint("vendor", __name__)
 vendor_model = VendorModel()
 order_model = OrderModel()
 

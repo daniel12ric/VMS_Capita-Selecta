@@ -77,9 +77,9 @@ def login():
             elif userData['roleid'] == 'user':
                 return redirect(url_for('akun.user'))
             elif userData['roleid'] == 'vendor':
-                return redirect(url_for('vendor_bp.vendors'))
+                return redirect(url_for('vendor.vendors'))
             elif userData['roleid'] == 'branch':
-                return redirect(url_for('branch_bp.branchs'))
+                return redirect(url_for('branch.branchs'))
         else:
             return render_template('404.html')
     return render_template('login.html')
