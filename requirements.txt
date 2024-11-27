@@ -5,5 +5,5 @@ google-cloud-logging
 gunicorn
 logging
 redis
-bryct
+bcrypt
 
