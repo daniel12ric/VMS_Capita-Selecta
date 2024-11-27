@@ -40,7 +40,7 @@ def vendor_create():
         result = vendor_model.create(username)
         if result.get("success"):
             flash("Vendor berhasil ditambahkan!", "success")
-            return redirect(url_for("vendor_bp.vendor_admin"))
+            return redirect(url_for("vendor.vendor_admin"))
         else:
             flash(result.get("message", "Gagal menambahkan Vendor"), "danger")
     return render_template("add-vendor.html", action="create")
@@ -144,7 +144,7 @@ def update_vendor(vendor_id):
             else:
                 flash(result.get("message", "Gagal memperbarui vendor"), "danger")
 
-            return redirect(url_for("vendor_bp.vendor_admin"))
+            return redirect(url_for("vendor.vendor_admin"))
 
         except Exception as e:
             flash(f"Error: {str(e)}", "danger")
@@ -235,7 +235,7 @@ def order_create():
         resultt = order_model.create(username)
         if resultt.get("success"):
             flash("Order berhasil ditambahkan!", "success")
-            return redirect(url_for("vendor_bp.vendor_pesan"))
+            return redirect(url_for("vendor.vendor_pesan"))
         else:
             flash(resultt.get("message", "Gagal menambahkan Order"), "danger")
     return render_template("add-order.html", action="create")
