@@ -7,7 +7,7 @@ steps :
     args:
     - 'run' 
     - 'deploy' 
-    - 'daniell-672022226' 
+    - 'daniel-672022226' 
     - '--image' 
     - 'asia-southeast2-docker.pkg.dev/sat-kapita-selekta-b/ks-se-2024-2/672022226-daniell:v.0.1' 
     - '--region' 
