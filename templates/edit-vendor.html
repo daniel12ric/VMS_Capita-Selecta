@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vendor Edit</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="website icon" type="png" href="../static/img/D-Logoo.png">
+    <link href="../static/vendor.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="card border-0 shadow-lg">
+                    <div class="card-header bg-primary text-white">
+                        <h3 class="mb-0">Edit Vendor Registration</h3>
+                    </div>
+                    <div class="card-body p-4">
+                        <form action="/edit-vendor/{{ vendor['_id'] }}" method="POST">
+                            <div class="form-section">
+                                <h4>Vendor Information</h4>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="_id" class="form-label">Vendor ID</label>
+                                            <input type="text" name="_id" class="form-control" value="{{ vendor['_id'] }}" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="vendorName" class="form-label">Vendor Name</label>
+                                            <input type="text" name="vendorName" class="form-control" value="{{ vendor['vendorName'] }}" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="partnerType" class="form-label">Partner Type</label>
+                                            <input type="text" name="partnerType" class="form-control" value="{{ vendor['partnerType'] }}" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="unitUsaha" class="form-label">Unit Usaha</label>
+                                            <select name="unitUsaha" class="form-control" required>
+                                                <option value="IT" {% if vendor['unitUsaha'] == 'IT' %}selected{% endif %}>IT</option>
+                                                <option value="BANKING" {% if vendor['unitUsaha'] == 'BANKING' %}selected{% endif %}>BANKING</option>
+                                                <option value="DESIGNER" {% if vendor['unitUsaha'] == 'DESIGNER' %}selected{% endif %}>DESIGNER</option>
+                                                <option value="INSURANCE" {% if vendor['unitUsaha'] == 'INSURANCE' %}selected{% endif %}>INSURANCE</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-section">
+                                <h4>Contact Information</h4>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="address" class="form-label">Address</label>
+                                            <input type="text" name="address" class="form-control" value="{{ vendor['address'] }}" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="country" class="form-label">Country</label>
+                                            <input type="text" name="country" class="form-control" value="{{ vendor['country'] }}" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="province" class="form-label">Province</label>
+                                            <input type="text" name="province" class="form-control" value="{{ vendor['province'] }}" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="noTelp" class="form-label">Phone Number</label>
+                                            <input type="text" name="noTelp" class="form-control" value="{{ vendor['noTelp'] }}" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="emailCompany" class="form-label">Email Company</label>
+                                            <input type="email" name="emailCompany" class="form-control" value="{{ vendor['emailCompany'] }}" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="website" class="form-label">Website</label>
+                                            <input type="text" name="website" class="form-control" value="{{ vendor['website'] }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="noNPWP" class="form-label">NPWP</label>
+                                            <input type="text" name="noNPWP" class="form-control" value="{{ vendor['noNPWP'] }}" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="activeStatus" class="form-label">Active Status</label>
+                                            <select name="activeStatus" class="form-control" required>
+                                                <option value="Y" {% if vendor['activeStatus'] == 'Y' %}selected{% endif %}>Active</option>
+                                                <option value="T" {% if vendor['activeStatus'] == 'T' %}selected{% endif %}>Inactive</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-section">
+                                <h4>Supporting Equipment</h4>
+                                <div id="supporting-equipment-container">
+                                    {% for equipment in vendor['supportingEquipment'] %}
+                                    <div class="supporting-equipment card mb-3">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label>Tool Type</label>
+                                                        <select name="supportingEquipment[{{ loop.index0 }}][toolType]" class="form-control" required>
+                                                            <option value="LAPTOP" {% if equipment['toolType'] == 'LAPTOP' %}selected{% endif %}>LAPTOP</option>
+                                                            <option value="PHONE" {% if equipment['toolType'] == 'PHONE' %}selected{% endif %}>PHONE</option>
+                                                            <option value="PC" {% if equipment['toolType'] == 'PC' %}selected{% endif %}>PC</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label>Count</label>
+                                                        <input type="number" name="supportingEquipment[{{ loop.index0 }}][count]" class="form-control" value="{{ equipment['count'] }}" required>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label>Merk</label>
+                                                        <input type="text" name="supportingEquipment[{{ loop.index0 }}][merk]" class="form-control" value="{{ equipment['merk'] }}" required>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label>Condition</label>
+                                                        <select name="supportingEquipment[{{ loop.index0 }}][condition]" class="form-control" required>
+                                                            <option value="NEW" {% if equipment['condition'] == 'NEW' %}selected{% endif %}>NEW</option>
+                                                            <option value="USED" {% if equipment['condition'] == 'USED' %}selected{% endif %}>USED</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button type="button" class="btn btn-danger btn-sm mt-3" onclick="removeEquipment(this)">Remove</button>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                <button type="button" class="btn btn-info btn-sm" id="add-equipment-btn">+ Add More Equipment</button>
+                            </div>
+
+                            <div class="form-section">
+                                <h4>Person In Charge (PIC)</h4>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Username</label>
+                                            <input type="text" name="pic[0][username]" class="form-control" value="{{ vendor['pic'][0]['username'] }}" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Name</label>
+                                            <input type="text" name="pic[0][name]" class="form-control" value="{{ vendor['pic'][0]['name'] }}" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Email</label>
+                                            <input type="email" name="pic[0][email]" class="form-control" value="{{ vendor['pic'][0]['email'] }}" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Phone</label>
+                                            <input type="text" name="pic[0][noTelp]" class="form-control" value="{{ vendor['pic'][0]['noTelp'] }}" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-section">
+                                <h4>Bank Account Details</h4>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Bank Code</label>
+                                            <select name="accountBank[0][bankCode]" class="form-control" required>
+                                                <option value="">Select Bank Code</option>
+                                                {% for bank in bank_list %}
+                                                <option value="{{ bank['_id'] }}" {% if vendor['accountBank'][0]['bankCode'] == bank['_id'] %}selected{% endif %}>{{ bank['_id'] }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Bank Name</label>
+                                            <select name="accountBank[0][bankName]" class="form-control" required>
+                                                <option value="">Select Bank Name</option>
+                                                {% for bank in bank_list %}
+                                                <option value="{{ bank['bankDesc'] }}" {% if vendor['accountBank'][0]['bankName'] == bank['bankDesc'] %}selected{% endif %}>{{ bank['bankDesc'] }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Account Number</label>
+                                            <input type="text" name="accountBank[0][accountNumber]" class="form-control" value="{{ vendor['accountBank'][0]['accountNumber'] }}" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Account Name</label>
+                                            <input type="text" name="accountBank[0][accountName]" class="form-control" value="{{ vendor['accountBank'][0]['accountName'] }}" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-end mt-4">
+                                <a href="/vendor_admin" class="btn btn-secondary me-3">Cancel</a>
+                                <button type="submit" class="btn btn-success">Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const bankCodeDropdown = document.querySelector('select[name="accountBank[0][bankCode]"]');
+            const bankNameDropdown = document.querySelector('select[name="accountBank[0][bankName]"]');
+    
+            fetch('/get-bank-list')
+                .then(response => response.json())
+                .then(data => {
+                    bankCodeDropdown.innerHTML = '<option value="">Select Bank Code</option>';
+                    bankNameDropdown.innerHTML = '<option value="">Select Bank Name</option>';
+    
+                    data.forEach(bank => {
+                        const bankCodeOption = document.createElement('option');
+                        bankCodeOption.value = bank._id;
+                        bankCodeOption.textContent = bank._id;
+    
+                        const bankNameOption = document.createElement('option');
+                        bankNameOption.value = bank.bankDesc;
+                        bankNameOption.textContent = bank.bankDesc;
+    
+                        bankCodeDropdown.appendChild(bankCodeOption);
+                        bankNameDropdown.appendChild(bankNameOption);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching bank list:', error);
+                });
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let equipmentIndex = {{ vendor['supportingEquipment']|length }};
+
+        document.getElementById('add-equipment-btn').addEventListener('click', () => {
+            const container = document.getElementById('supporting-equipment-container');
+
+            const newEquipment = `
+                <div class="supporting-equipment card mb-3">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Tool Type</label>
+                                    <select name="supportingEquipment[${equipmentIndex}][toolType]" class="form-control" required>
+                                        <option value="LAPTOP">LAPTOP</option>
+                                        <option value="PHONE">PHONE</option>
+                                        <option value="PC">PC</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Count</label>
+                                    <input type="number" name="supportingEquipment[${equipmentIndex}][count]" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Merk</label>
+                                    <input type="text" name="supportingEquipment[${equipmentIndex}][merk]" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Condition</label>
+                                    <select name="supportingEquipment[${equipmentIndex}][condition]" class="form-control" required>
+                                        <option value="NEW">NEW</option>
+                                        <option value="USED">USED</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-danger btn-sm mt-3" onclick="removeEquipment(this)">Remove</button>
+                    </div>
+                </div>
+            `;
+
+            container.insertAdjacentHTML('beforeend', newEquipment);
+            equipmentIndex++;
+        });
+
+        function removeEquipment(element) {
+            element.closest('.supporting-equipment').remove();
+        }
+    </script>
+</body>
+</html>
+

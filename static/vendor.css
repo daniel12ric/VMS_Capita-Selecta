@@ -1,0 +1,27 @@
+body {
+    background-color: #f4f6f9;
+    font-family: 'Helvetica', sans-serif;
+
+}
+.form-section {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+    padding: 20px;
+}
+.form-section h4 {
+    color: #4e73df;
+    border-bottom: 2px solid #4e73df;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+.form-group {
+    margin-bottom: 15px;
+}
+.btn-custom {
+    margin-top: 20px;
+}
+.supporting-equipment {
+    margin-bottom: 15px;
+}

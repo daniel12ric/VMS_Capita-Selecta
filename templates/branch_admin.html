@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Branch</title>
+    <link href="/static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="/static/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="../static/alfa.css" rel="stylesheet">
+    <link rel="website icon" type="png" href="../static/img/D-Logoo.png">
+</head>
+<body>
+    <div id="wrapper">
+        <ul class="navbar-nav bg-gradient-alfamart sidebar sidebar-dark accordion" id="accordionSidebar">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/admin">
+                <div class="sidebar-brand-text mx-3">TR Kapita <sup>672022226</sup></div>
+            </a>
+            <hr class="sidebar-divider my-0">
+            <li class="nav-item">
+                <a class="nav-link" href="/vendor_admin">
+                    <i class="fas fa-fw fa-box"></i>
+                    <span>Manage Vendors</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/branch_admin">
+                    <i class="fas fa-fw fa-code-branch"></i>
+                    <span>Manage Branchs</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/bank_admin">
+                    <i class="fas fa-fw fa-university"></i>
+                    <span>Manage Banks</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/manage_akun">
+                    <i class="fas fa-user-edit"></i>
+                    <span>Manage Akun</span>
+                </a>
+            </li>            
+            <li class="nav-item">
+                <a class="nav-link" href="/pesanan_admin">
+                    <i class="fas fa-shipping-fast"></i>
+                    <span>See Order</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/landing">
+                    <i class="fas fa-address-card"></i>
+                    <span>About Creator</span>
+                </a>
+            </li>
+            <li class="nav-item mt-auto">
+                <a class="nav-link" href="/logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </li>
+        </ul>
+        <div class="container-fluid">
+            <div class="card shadow mt-4">
+                <div class="card-header py-3 d-flex justify-content-between">
+                    <h6 class="m-0 font-weight-bold" style="color: #D41A1A;">Branch List</h6>
+                    <a href="/add-branch" class="btn btn-success btn-sm">
+                        <i class="fas fa-plus"></i> Tambah Branch
+                    </a>
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Description</th>
+                                <th>Created By</th>
+                                <th>Created Date</th>
+                                <th>Updated By</th>
+                                <th>Updated Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="branch-table">                      
+                        </tbody>
+                    </table>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="toast-container" style="position: fixed; top: 20px; right: 20px; z-index: 1050;">
+        <div id="toast" class="toast" style="display: none;">
+            <div class="toast-body">
+                <span id="toast-message"></span>
+            </div>
+        </div>
+    </div>
+        
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('/get-branch')
+                .then(response => response.json())
+                .then(data => {
+                    const table = document.getElementById('branch-table');
+                    table.innerHTML = '';
+                    data.forEach(branch => {
+                        table.innerHTML += `
+                            <tr>
+                                <td>${branch._id}</td>
+                                <td>${branch.BranchName}</td>
+                                <td>${branch.setup.createUser}</td>
+                                <td>${new Date(branch.setup.createDate).toLocaleString()}</td>
+                                <td>${branch.setup.updateUser}</td>
+                                <td>${new Date(branch.setup.updateDate).toLocaleString()}</td>
+                                <td>${branch.activeStatus}</td>
+                                <td>
+                                    <a href="/edit-branch/${branch._id}" class="btn btn-warning btn-sm">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </a>
+                                    <button onclick="deletebranch('${branch._id}')" class="btn btn-danger btn-sm">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+
+                                </td>
+                            </tr>
+                        `;
+                    });
+                });
+        });
+
+        function deletebranch(branchId) {
+            fetch(`/delete-branch/${branchId}`, { method: 'DELETE' })
+                .then(response => response.json()) 
+                .then(data => {
+                    const toast = document.getElementById('toast');
+                    const toastMessage = document.getElementById('toast-message');
+    
+                    if (data.success) {
+                        toastMessage.textContent = data.message || "Gagal menghapus Branch.";
+                        toast.classList.add('toast-error');
+                        showToast();
+                    } else {
+                        toastMessage.textContent = data.message || "Branch berhasil dihapus.";
+                        toast.classList.add('toast-success');
+                        showToast();
+                        location.reload(); 
+                    }
+                })
+                .catch(error => {
+                    const toast = document.getElementById('toast');
+                    const toastMessage = document.getElementById('toast-message');
+                    toastMessage.textContent = "Terjadi kesalahan: " + error.message;
+                    toast.classList.add('toast-error');
+                    showToast();
+                });
+        
+        }
+        
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.style.display = 'block';
+        
+            setTimeout(() => {
+                toast.style.display = 'none';
+                toast.classList.remove('toast-success', 'toast-error');
+            }, 40000); 
+        }
+        
+    </script>
+</body>
+</html>

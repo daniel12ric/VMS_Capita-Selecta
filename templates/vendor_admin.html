@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Vendor</title>
+    <link href="/static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="/static/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="../static/alfa.css" rel="stylesheet">
+    <link href="../static/vendoradmin.css" rel="stylesheet">
+    <link rel="website icon" type="png" href="../static/img/D-Logoo.png">
+</head>
+<body>
+    <div id="wrapper">
+        <ul class="navbar-nav bg-gradient-alfamart sidebar sidebar-dark accordion" id="accordionSidebar">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/admin">
+                <div class="sidebar-brand-text mx-3">TR Kapita <sup>672022226</sup></div>
+            </a>
+            <hr class="sidebar-divider my-0">
+            <li class="nav-item">
+                <a class="nav-link" href="/vendor_admin">
+                    <i class="fas fa-fw fa-box"></i>
+                    <span>Manage Vendors</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/branch_admin">
+                    <i class="fas fa-fw fa-code-branch"></i>
+                    <span>Manage Branchs</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/bank_admin">
+                    <i class="fas fa-fw fa-university"></i>
+                    <span>Manage Banks</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/manage_akun">
+                    <i class="fas fa-user-edit"></i>
+                    <span>Manage Akun</span>
+                </a>
+            </li>            
+            <li class="nav-item">
+                <a class="nav-link" href="/pesanan_admin">
+                    <i class="fas fa-shipping-fast"></i>
+                    <span>See Order</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/landing">
+                    <i class="fas fa-address-card"></i>
+                    <span>About Creator</span>
+                </a>
+            </li>
+            <li class="nav-item mt-auto">
+                <a class="nav-link" href="/logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </li>
+        </ul>
+        <div class="container-fluid">
+            <div class="card shadow mt-4">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h6 class="m-0 font-weight-bold text-danger">Vendor Management</h6>
+                    <a href="/add-vendor" class="btn btn-success btn-sm">
+                        <i class="fas fa-plus"></i> Add New Vendor
+                    </a>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Vendor Name</th>
+                                    <th>Partner Type</th>
+                                    <th>Unit Usaha</th>
+                                    <th>Country</th>
+                                    <th>Province</th>
+                                    <th>Active Status</th>
+                                    <th class="actions-column">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for vendor in vendor %}
+                                <tr>
+                                    <td>{{ vendor['_id'] }}</td>
+                                    <td>{{ vendor['vendorName'] }}</td>
+                                    <td>{{ vendor['partnerType'] }}</td>
+                                    <td>{{ vendor['unitUsaha'] }}</td>
+                                    <td>{{ vendor['country'] }}</td>
+                                    <td>{{ vendor['province'] }}</td>
+                                    <td>
+                                        <span class="badge {{ 'badge-success' if vendor['activeStatus'] == 'Y' else 'badge-danger' }}">
+                                            {{ vendor['activeStatus'] }}
+                                        </span>
+                                    </td>
+                                    <td class="actions-column">
+                                        <div class="btn-group" role="group">
+                                            <button class="btn btn-info btn-sm view-details" 
+                                                data-id="{{ vendor['_id'] }}"
+                                                data-name="{{ vendor['vendorName'] }}"
+                                                data-partner-type="{{ vendor['partnerType'] }}"
+                                                data-unit-usaha="{{ vendor['unitUsaha'] }}"
+                                                data-address="{{ vendor['address'] }}"
+                                                data-country="{{ vendor['country'] }}"
+                                                data-province="{{ vendor['province'] }}"
+                                                data-telp="{{ vendor['noTelp'] }}"
+                                                data-email="{{ vendor['emailCompany'] }}"
+                                                data-website="{{ vendor['website'] }}"
+                                                data-create-date="{{ vendor['change']['createDate'].strftime('%Y-%m-%d %H:%M:%S') }}"
+                                                data-create-user="{{ vendor['change']['createUser'] }}"
+                                                data-update-date="{{ vendor['change']['updateDate'].strftime('%Y-%m-%d %H:%M:%S') }}"
+                                                data-update-user="{{ vendor['change']['updateUser'] }}"
+                                                data-bankCode="{{ vendor['accountBank'][0]['bankCode'] }}"
+                                                data-bankName="{{ vendor['accountBank'][0]['bankName'] }}"
+                                                data-accountNumber="{{ vendor['accountBank'][0]['accountNumber'] }}"
+                                                data-accountName="{{ vendor['accountBank'][0]['accountName'] }}"
+                                                data-status="{{ vendor['activeStatus'] }}">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <a href="/edit-vendor/{{ vendor['_id'] }}" class="btn btn-warning btn-sm">
+                                                <i class="fas fa-pencil-alt"></i>
+                                            </a>
+                                            <button onclick="deleteVendor('{{ vendor['_id'] }}')" class="btn btn-danger btn-sm">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>                                                  
+                                                                            
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="vendorDetailsModal" class="vendor-details-modal">
+        <div class="vendor-details-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="vendorDetailsTitle">Vendor Details</h5>
+                <button type="button" class="close close-modal">&times;</button>
+            </div>
+            <div class="modal-body" id="vendorDetailsBody">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary close-modal">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast-container" style="position: fixed; top: 20px; right: 20px; z-index: 1050;">
+        <div id="toast" class="toast" style="display: none;">
+            <div class="toast-body">
+                <span id="toast-message"></span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll('.view-details').forEach(button => {
+            button.addEventListener('click', () => {
+                const modal = document.getElementById('vendorDetailsModal');
+                const modalBody = document.getElementById('vendorDetailsBody');
+                const modalTitle = document.getElementById('vendorDetailsTitle');
+        
+                const vendorName = button.getAttribute('data-name');
+                modalTitle.textContent = `Vendor Details: ${vendorName}`;
+        
+                modalBody.innerHTML = `
+                    <div class="row">
+                        <div class="col-6">
+                            <h5><b>Vendor Information</b></h5>
+                            <strong>Vendor Name:</strong> ${vendorName}<br>
+                            <strong>Partner Type:</strong> ${button.getAttribute('data-partner-type')}<br>
+                            <strong>Unit Usaha:</strong> ${button.getAttribute('data-unit-usaha')}<br>
+                            <strong>Address:</strong> ${button.getAttribute('data-address')}<br>
+                            <strong>Country:</strong> ${button.getAttribute('data-country')}<br>
+                            <strong>Province:</strong> ${button.getAttribute('data-province')}<br>
+                            <strong>Phone:</strong> ${button.getAttribute('data-telp')}<br>
+                            <strong>Email:</strong> ${button.getAttribute('data-email')}<br>
+                            <strong>Website:</strong> ${button.getAttribute('data-website')}<br>
+
+                        </div>
+                        <div class="col-6"> 
+                            <br><br><br><br><br><br>  
+                            <h5><b>User Information</b></h5>
+                            <strong>Create User:</strong> ${button.getAttribute('data-create-user')}<br>
+                            <strong>Create Date:</strong> ${button.getAttribute('data-create-date')}<br>
+                            <strong>Update User:</strong> ${button.getAttribute('data-update-user')}<br>
+                            <strong>Update Date:</strong> ${button.getAttribute('data-update-date')}<br>
+                        </div>
+                        <div class="col-md-12 mt-3">  
+                            <h5><b>Bank Information</b></h5>  
+                            <strong>Bank Code:</strong> ${button.getAttribute('data-bankCode')}<br>
+                            <strong>Bank Name:</strong> ${button.getAttribute('data-bankName')}<br>
+                            <strong>Account Number:</strong> ${button.getAttribute('data-accountNumber')}<br>
+                            <strong>Account Name:</strong> ${button.getAttribute('data-accountName')}<br>
+                        </div>
+
+                    </div>
+                `;
+        
+                modal.style.display = 'block';
+            });
+        });
+        
+        document.querySelectorAll('.close-modal').forEach(closeBtn => {
+            closeBtn.addEventListener('click', () => {
+                document.getElementById('vendorDetailsModal').style.display = 'none';
+            });
+        });
+
+        function deleteVendor(vendorId) { 
+            fetch(`/delete-vendor/${vendorId}`, { method: 'DELETE' })
+                .then(response => response.json()) 
+                .then(data => {
+                    const toast = document.getElementById('toast');
+                    const toastMessage = document.getElementById('toast-message');
+    
+                    if (data.success) {
+                        toastMessage.textContent = data.message || 'Failed to delete vendor.';
+                        toast.classList.add('toast-error');
+                        showToast();
+                    } else {
+                        toastMessage.textContent = data.message || 'Vendor successfully deleted.';
+                        toast.classList.add('toast-success');
+                        showToast();
+                        location.reload(); 
+                    }
+                })
+                .catch(error => {
+                    const toast = document.getElementById('toast');
+                    const toastMessage = document.getElementById('toast-message');
+                    toastMessage.textContent = 'Error: ' + error.message;
+                    toast.classList.add('toast-error');
+                    showToast();
+                });
+            
+        }
+        
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.style.display = 'block';
+        
+            setTimeout(() => {
+                toast.style.display = 'none';
+                toast.classList.remove('toast-success', 'toast-error');
+            }, 8000); 
+        }
+        
+    </script>
+</body>
+</html>

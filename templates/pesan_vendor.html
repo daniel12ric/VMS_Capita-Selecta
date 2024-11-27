@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TR KAPITA 672022226</title>
+    <link href="/static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="/static/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="../static/alfa.css" rel="stylesheet">
+    <link rel="website icon" type="png" href="../static/img/D-Logoo.png">
+</head>
+<body id="page-top">
+    <div id="wrapper">
+        <ul class="navbar-nav bg-gradient-alfamart sidebar sidebar-dark accordion" id="accordionSidebar">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/vendors">
+                <div class="sidebar-brand-text mx-3">TR Kapita <sup>672022226</sup></div>
+            </a>
+            <hr class="sidebar-divider my-0">
+            <li class="nav-item">
+                <a class="nav-link" href="/vendordor">
+                    <i class="fas fa-fw fa-box"></i>
+                    <span>Vendors</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/branchdor">
+                    <i class="fas fa-fw fa-code-branch"></i>
+                    <span>Branchs</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/bankdor">
+                    <i class="fas fa-fw fa-university"></i>
+                    <span>Banks</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/pesanan">
+                    <i class="fas fa-shipping-fast"></i>
+                    <span>Order</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/landing">
+                    <i class="fas fa-address-card"></i>
+                    <span>About Creator</span>
+                </a>
+            </li>
+            <li class="nav-item mt-auto">
+                <a class="nav-link" href="/logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </li>
+        </ul>
+        <div class="container-fluid">
+            <div class="card shadow mt-4">
+                <div class="card-header py-3 d-flex justify-content-between">
+                    <h6 class="m-0 font-weight-bold" style="color: #D41A1A;">Order List</h6>
+                    <a href="/add-order" class="btn btn-success btn-sm">
+                        <i class="fas fa-plus"></i> Tambah Order
+                    </a>
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Order Name</th>
+                                <th>Count</th>
+                                <th>Created By</th>
+                                <th>Created Date</th>
+                                <th>Updated By</th>
+                                <th>Updated Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="order-table">                      
+                        </tbody>
+                    </table>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+        
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('/get-order')
+                .then(response => response.json())
+                .then(data => {
+                    const table = document.getElementById('order-table');
+                    table.innerHTML = '';
+                    data.forEach(order => {
+                        table.innerHTML += `
+                            <tr>
+                                <td>${order._id}</td>
+                                <td>${order.orderName}</td>
+                                <td>${order.count}</td>
+                                <td>${order.setup.createUser}</td>
+                                <td>${new Date(order.setup.createDate).toLocaleString()}</td>
+                                <td>${order.setup.updateUser}</td>
+                                <td>${new Date(order.setup.updateDate).toLocaleString()}</td>
+                            </tr>
+                        `;
+                    });
+                });
+        });
+    </script>
+
+
+    <script src="/static/vendor/jquery/jquery.min.js"></script>
+    <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="/static/js/sb-admin-2.min.js"></script>
+</body>
+</html>

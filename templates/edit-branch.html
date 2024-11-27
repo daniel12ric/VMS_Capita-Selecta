@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Branch Edit</title>
+    <link href="/static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="/static/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="../static/font.css" rel="stylesheet">
+    <link rel="website icon" type="png" href="../static/img/D-Logoo.png">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="card shadow">
+            <div class="card-header">
+                <h6 class="m-0 font-weight-bold text-primary">Edit Branch</h6>
+            </div>
+            <div class="card-body">
+                <form action="/edit-branch/{{branch['_id']}}" method='POST'>
+                    <div class="form-group">
+                        <label for="_id">ID Branch</label>
+                        <input type="text" id="_id" name="_id" class="form-control" value="{{ branch['_id'] }}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="BranchName">Deskripsi Branch</label>
+                        <input type="text" id="BranchName" name="BranchName" class="form-control" value="{{ branch['BranchName'] }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="activeStatus">Status Aktif</label>
+                        <select id="activeStatus" name="activeStatus" class="form-control" required>
+                            <option value="Y">Y</option>
+                            <option value="T">T</option>
+                        </select>
+                    </div>
+                    <button type="submit"  class="btn btn-success">Simpan</button>
+                    <a href="/branch_admin" class="btn btn-secondary">Kembali</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

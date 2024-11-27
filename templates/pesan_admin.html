@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Vendor</title>
+    <link href="/static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="/static/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="../static/alfa.css" rel="stylesheet">
+    <link href="../static/vendoradmin.css" rel="stylesheet">
+    <link rel="website icon" type="png" href="../static/img/D-Logoo.png">
+</head>
+<body>
+    <div id="wrapper">
+        <ul class="navbar-nav bg-gradient-alfamart sidebar sidebar-dark accordion" id="accordionSidebar">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/admin">
+                <div class="sidebar-brand-text mx-3">TR Kapita <sup>672022226</sup></div>
+            </a>
+            <hr class="sidebar-divider my-0">
+            <li class="nav-item">
+                <a class="nav-link" href="/vendor_admin">
+                    <i class="fas fa-fw fa-box"></i>
+                    <span>Manage Vendors</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/branch_admin">
+                    <i class="fas fa-fw fa-code-branch"></i>
+                    <span>Manage Branchs</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/bank_admin">
+                    <i class="fas fa-fw fa-university"></i>
+                    <span>Manage Banks</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/manage_akun">
+                    <i class="fas fa-user-edit"></i>
+                    <span>Manage Akun</span>
+                </a>
+            </li>            
+            <li class="nav-item">
+                <a class="nav-link" href="/pesanan_admin">
+                    <i class="fas fa-shipping-fast"></i>
+                    <span>See Order</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/landing">
+                    <i class="fas fa-address-card"></i>
+                    <span>About Creator</span>
+                </a>
+            </li>
+            <li class="nav-item mt-auto">
+                <a class="nav-link" href="/logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </li>
+        </ul>
+        <div class="container-fluid">
+            <div class="card shadow mt-4">
+                <div class="card-header py-3 d-flex justify-content-between">
+                    <h6 class="m-0 font-weight-bold" style="color: #D41A1A;">Order List</h6>
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Order Name</th>
+                                <th>Count</th>
+                                <th>Created By</th>
+                                <th>Created Date <button onclick="sortTable(0)" class="btn btn-link p-0"><i class="fas fa-sort"></i></button></th>
+                                <th>Updated By</th>
+                                <th>Updated Date <button onclick="sortTable(1)" class="btn btn-link p-0"><i class="fas fa-sort"></i></button></th>
+                            </tr>
+                        </thead>
+                        <tbody id="order-table">                      
+                        </tbody>
+                    </table>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+        
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('/get-orderr')
+                .then(response => response.json())
+                .then(data => {
+                    const table = document.getElementById('order-table');
+                    table.innerHTML = '';
+                    data.forEach(order => {
+                        table.innerHTML += `
+                            <tr>
+                                <td>${order._id}</td>
+                                <td>${order.orderName}</td>
+                                <td>${order.count}</td>
+                                <td>${order.setup.createUser}</td>
+                                <td>${new Date(order.setup.createDate).toLocaleString()}</td>
+                                <td>${order.setup.updateUser}</td>
+                                <td>${new Date(order.setup.updateDate).toLocaleString()}</td>
+                            </tr>
+                        `;
+                    });
+                });
+        });
+
+        let sortDirection = {};
+    
+        function sortTable(columnIndex) {
+            const table = document.getElementById('order-table');
+            const rows = Array.from(table.querySelectorAll('tr'));
+            
+            sortDirection[columnIndex] = !sortDirection[columnIndex];
+    
+            rows.sort((a, b) => {
+                const cellA = a.children[columnIndex].innerText || "";
+                const cellB = b.children[columnIndex].innerText || "";
+
+                if (!isNaN(Date.parse(cellA)) && !isNaN(Date.parse(cellB))) {
+                    return sortDirection[columnIndex] 
+                        ? new Date(cellA) - new Date(cellB) 
+                        : new Date(cellB) - new Date(cellA);
+                } else if (!isNaN(cellA) && !isNaN(cellB)) {
+                    return sortDirection[columnIndex]
+                        ? cellA - cellB
+                        : cellB - cellA;
+                } else {
+                    return sortDirection[columnIndex]
+                        ? cellA.localeCompare(cellB)
+                        : cellB.localeCompare(cellA);
+                }
+            });
+
+            rows.forEach(row => table.appendChild(row));
+        } 
+    </script>
+
+
+    <script src="/static/vendor/jquery/jquery.min.js"></script>
+    <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="/static/js/sb-admin-2.min.js"></script>
+</body>
+</html>

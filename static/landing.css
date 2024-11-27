@@ -1,0 +1,83 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    font-family: 'Helvetica', sans-serif;
+
+}
+
+.hero {
+    background: linear-gradient(180deg, #D41A1A 10%, #A31313 100%);
+    color: #fff;
+    padding: 50px 20px;
+    text-align: center;
+}
+
+.profile-img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 4px solid #fff;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    margin-bottom: 20px;
+}
+
+.content {
+    text-align: center;
+    margin-top: 20px;
+}
+.content2 {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.btn-custom {
+    border-radius: 50px;
+    padding: 10px 25px;
+    font-size: 1rem;
+    transition: all 0.3s;
+    margin: 10px;
+    display: inline-block;
+}
+
+.btn-custom:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.btn-linkedin {
+    background-color: #0077b5;
+    color: #fff;
+}
+
+.btn-linkedin:hover {
+    background-color: #005a87;
+}
+
+.btn-instagram {
+    background-color: #e4405f;
+    color: #fff;
+}
+
+.btn-instagram:hover {
+    background-color: #b8324d;
+}
+
+.btn-login {
+    background-color: #28a745;
+    color: #fff;
+}
+
+.btn-login:hover {
+    background-color: #218838;
+}
+
+footer {
+    background: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    margin-top: 30px;
+    font-size: 0.9rem;
+}

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List Branch</title>
+    <link href="/static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="/static/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="../static/alfa.css" rel="stylesheet">
+    <link rel="website icon" type="png" href="../static/img/D-Logoo.png">
+</head>
+<body>
+    <div id="wrapper">
+        <ul class="navbar-nav bg-gradient-alfamart sidebar sidebar-dark accordion" id="accordionSidebar">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/user">
+                <div class="sidebar-brand-text mx-3">TR Kapita <sup>672022226</sup></div>
+            </a>
+            <hr class="sidebar-divider my-0">
+            <li class="nav-item">
+                <a class="nav-link" href="/vendor">
+                    <i class="fas fa-fw fa-box"></i>
+                    <span>Vendors</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/branch">
+                    <i class="fas fa-fw fa-code-branch"></i>
+                    <span>Branchs</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/bank">
+                    <i class="fas fa-fw fa-university"></i>
+                    <span>Banks</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/landing">
+                    <i class="fas fa-address-card"></i>
+                    <span>About Creator</span>
+                </a>
+            </li>
+            <li class="nav-item mt-auto">
+                <a class="nav-link" href="/logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </li>
+        </ul>
+        <div class="container-fluid">
+            <div class="card shadow mt-4">
+                <div class="card-header py-3 d-flex justify-content-between">
+                    <h6 class="m-0 font-weight-bold" style="color: #D41A1A;">Branch List</h6>
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>ID <button onclick="sortTable(0)" class="btn btn-link p-0"><i class="fas fa-sort"></i></button></th>
+                                <th>Description <button onclick="sortTable(2)" class="btn btn-link p-0"><i class="fas fa-sort"></i></button></th>
+                                <th>Created By <button onclick="sortTable(3)" class="btn btn-link p-0"><i class="fas fa-sort"></i></button></th>
+                                <th>Created Date <button onclick="sortTable(4)" class="btn btn-link p-0"><i class="fas fa-sort"></i></button></th>
+                                <th>Updated By <button onclick="sortTable(5)" class="btn btn-link p-0"><i class="fas fa-sort"></i></button></th>
+                                <th>Updated Date <button onclick="sortTable(6)" class="btn btn-link p-0"><i class="fas fa-sort"></i></button></th>
+                                <th>Status <button onclick="sortTable(1)" class="btn btn-link p-0"><i class="fas fa-sort"></i></button></th>
+                            </tr>
+                        </thead>
+                        <tbody id="branch-table">                      
+                        </tbody>
+                    </table>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+        
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('/get-branch')
+                .then(response => response.json())
+                .then(data => {
+                    const table = document.getElementById('branch-table');
+                    table.innerHTML = '';
+                    data.forEach(branch => {
+                        table.innerHTML += `
+                            <tr>
+                                <td>${branch._id}</td>
+                                <td>${branch.BranchName}</td>
+                                <td>${branch.setup.createUser}</td>
+                                <td>${new Date(branch.setup.createDate).toLocaleString()}</td>
+                                <td>${branch.setup.updateUser}</td>
+                                <td>${new Date(branch.setup.updateDate).toLocaleString()}</td>
+                                <td>${branch.activeStatus}</td>
+                            </tr>
+                        `;
+                    });
+                });
+        });
+        let sortDirection = {};
+    
+        function sortTable(columnIndex) {
+            const table = document.getElementById('branch-table');
+            const rows = Array.from(table.querySelectorAll('tr'));
+            
+            sortDirection[columnIndex] = !sortDirection[columnIndex];
+    
+            rows.sort((a, b) => {
+                const cellA = a.children[columnIndex].innerText || "";
+                const cellB = b.children[columnIndex].innerText || "";
+
+                if (!isNaN(Date.parse(cellA)) && !isNaN(Date.parse(cellB))) {
+                    return sortDirection[columnIndex] 
+                        ? new Date(cellA) - new Date(cellB) 
+                        : new Date(cellB) - new Date(cellA);
+                } else if (!isNaN(cellA) && !isNaN(cellB)) {
+                    return sortDirection[columnIndex]
+                        ? cellA - cellB
+                        : cellB - cellA;
+                } else {
+                    return sortDirection[columnIndex]
+                        ? cellA.localeCompare(cellB)
+                        : cellB.localeCompare(cellA);
+                }
+            });
+
+            rows.forEach(row => table.appendChild(row));
+        } 
+    </script>
+</body>
+</html>

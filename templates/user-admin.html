@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Manage User</title>
+    <link href="/static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="/static/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="../static/alfa.css" rel="stylesheet">
+    <link href="../static/vendoradmin.css" rel="stylesheet">
+    <link rel="website icon" type="png" href="../static/img/D-Logoo.png">
+</head>
+<body>
+    <div id="wrapper">
+        <ul class="navbar-nav bg-gradient-alfamart sidebar sidebar-dark accordion" id="accordionSidebar">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/admin">
+                <div class="sidebar-brand-text mx-3">TR Kapita <sup>672022226</sup></div>
+            </a>
+            <hr class="sidebar-divider my-0">
+            <li class="nav-item">
+                <a class="nav-link" href="/vendor_admin">
+                    <i class="fas fa-fw fa-box"></i>
+                    <span>Manage Vendors</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/branch_admin">
+                    <i class="fas fa-fw fa-code-branch"></i>
+                    <span>Manage Branchs</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/bank_admin">
+                    <i class="fas fa-fw fa-university"></i>
+                    <span>Manage Banks</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/manage_akun">
+                    <i class="fas fa-user-edit"></i>
+                    <span>Manage Akun</span>
+                </a>
+            </li>            
+            <li class="nav-item">
+                <a class="nav-link" href="/pesanan_admin">
+                    <i class="fas fa-shipping-fast"></i>
+                    <span>See Order</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/landing">
+                    <i class="fas fa-address-card"></i>
+                    <span>About Creator</span>
+                </a>
+            </li>
+            <li class="nav-item mt-auto">
+                <a class="nav-link" href="/logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </li>
+        </ul>
+        <div class="container-fluid">
+            <div class="card shadow mt-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold" style="color: #D41A1A;">User List</h6>
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>Role ID</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="user-table"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast-container" style="position: fixed; top: 20px; right: 20px; z-index: 1050;">
+        <div id="toast" class="toast" style="display: none;">
+            <div class="toast-body">
+                <span id="toast-message"></span>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('/get-akun')
+            .then(response => response.json())
+            .then(data => {
+                const table = document.getElementById('user-table');
+                table.innerHTML = '';
+                if (data && data.data && data.data.length > 0) {
+                    data.data.forEach(user => {
+                        table.innerHTML += `
+                            <tr>
+                                <td>${user.username}</td>
+                                <td>${user.roleid}</td>
+                                <td>
+                                    <a href="/edit-akun/${user.username}" class="btn btn-warning btn-sm">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </a>
+                                    <button onclick="deleteUser('${user.username}')" class="btn btn-danger btn-sm">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        `;
+                    });
+                } else {
+                    table.innerHTML = '<tr><td colspan="3">No data available</td></tr>';
+                }
+            })
+            .catch(error => console.error("Error fetching data:", error));
+        });
+        
+
+        function deleteUser(username) {
+            fetch(`/delete-akun/${username}`, { method: 'POST' })
+                .then(response => response.json())
+                .then(data => {
+                    const toast = document.getElementById('toast');
+                    const toastMessage = document.getElementById('toast-message');
+
+                    if (data.success) {
+                        toastMessage.textContent = data.message || "Failed to delete user.";
+                        toast.classList.add('toast-error');
+                        showToast();
+                    } else {
+                        toastMessage.textContent = data.message || "User deleted successfully!";
+                        toast.classList.add('toast-success');
+                        showToast();
+                        location.reload(); 
+                    }
+                })
+                .catch(error => {
+                    const toast = document.getElementById('toast');
+                    const toastMessage = document.getElementById('toast-message');
+                    toastMessage.textContent = "User deleted successfully!" ;
+                    toast.classList.add('toast-success');
+                    showToast();
+                    location.reload(); 
+                });
+            
+        }
+        
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.style.display = 'block';
+        
+            setTimeout(() => {
+                toast.style.display = 'none';
+                toast.classList.remove('toast-success', 'toast-error');
+            }, 5000); 
+        }
+        
+    </script>
+</body>
+</html>

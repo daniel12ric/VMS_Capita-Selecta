@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Akun</title>
+    <link href="/static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="/static/css/sb-admin-2.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="card shadow">
+            <div class="card-header">
+                <h6 class="m-0 font-weight-bold text-primary">Edit Akun</h6>
+            </div>
+            <div class="card-body">
+                <form action="/edit-akun/{{ akun['username'] }}" method="POST">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" name="username" class="form-control" value="{{ akun['username'] }}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="roleid">Role ID</label>
+                        <select name="roleid" class="form-control" required>
+                            <option value="admin" {% if akun['roleid'] == 'admin' %}selected{% endif %}>Admin</option>
+                            <option value="vendor" {% if akun['roleid'] == 'vendor' %}selected{% endif %}>Vendor</option>
+                            <option value="branch" {% if akun['roleid'] == 'branch' %}selected{% endif %}>Branch</option>
+                            <option value="user" {% if akun['roleid'] == 'user' %}selected{% endif %}>User</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-success">Update Role</button>
+                    <a href="/manage_akun" class="btn btn-secondary">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

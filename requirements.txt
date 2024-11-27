@@ -1,0 +1,9 @@
+flask
+flask_cors
+pymongo 
+google-cloud-logging 
+gunicorn
+logging
+redis
+bryct
+

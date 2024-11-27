@@ -1,0 +1,62 @@
+.bg-gradient-alfamart {
+    background: linear-gradient(180deg, #D41A1A 10%, #A31313 100%);
+    background-size: cover;
+    color: white;
+}
+
+.bg-gradient-alfamart .nav-link {
+    color: white;
+}
+
+.bg-gradient-alfamart .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.sidebar-dark .nav-link i {
+    color: white;
+}
+
+.sidebar-dark .nav-link span {
+    color: white;
+}
+
+.btn-primary {
+    background-color: #D41A1A;
+    border-color: #A31313;
+}
+
+.btn-primary:hover {
+    background-color: #A31313;
+    border-color: #D41A1A;
+}
+
+
+.nav-link:hover {
+    transform: scale(1.05);
+    transition: transform 0.2s ease-in-out;
+}
+
+body{
+    font-family: 'Helvetica', sans-serif;
+}
+
+.toast {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    opacity: 0.9;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.toast-success {
+    background-color: #28a745;
+}
+
+.toast-error {
+    background-color: #dc3545; 
+}
+
