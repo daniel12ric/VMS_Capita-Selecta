@@ -12,8 +12,8 @@ from routes.akun import akun_bp
 
 akunColl = db.akunColl
 bankColl = db.bankColl
-vendorColl = db.vendorColl
 branchColl = db.branchColl
+vendorColl = db.vendorColl
 
 app = Flask(__name__, static_folder='static', template_folder='templates')
 app.secret_key = secret_key
@@ -73,13 +73,13 @@ def login():
             r.set(session_id, username)
             session['session_id'] = session_id
             if userData['roleid'] == 'admin':
-                return redirect(url_for('admin'))
+                return redirect(url_for('akun.admin'))
             elif userData['roleid'] == 'user':
-                return redirect(url_for('user'))
+                return redirect(url_for('akun.user'))
             elif userData['roleid'] == 'vendor':
-                return redirect(url_for('vendors'))
+                return redirect(url_for('vendor.vendors'))
             elif userData['roleid'] == 'branch':
-                return redirect(url_for('branchs'))
+                return redirect(url_for('branch.branchs'))
         else:
             return render_template('404.html')
     return render_template('login.html')
