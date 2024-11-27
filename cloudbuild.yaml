@@ -1,15 +1,15 @@
 steps :
   - name: gcr.io/cloud-builders/docker 
-    args: ['build', '-t', 'asia-southeast2-docker.pkg.dev/sat-kapita-selekta-b/ks-se-2024-2/672022226-daniel:v.0.1', '.'] 
+    args: ['build', '-t', 'asia-southeast2-docker.pkg.dev/sat-kapita-selekta-b/ks-se-2024-2/672022226-daniell:v.0.1', '.'] 
   - name: 'gcr.io/cloud-builders/docker' 
-    args: ["push", "asia-southeast2-docker.pkg.dev/sat-kapita-selekta-b/ks-se-2024-2/672022226-daniel:v.0.1"] 
+    args: ["push", "asia-southeast2-docker.pkg.dev/sat-kapita-selekta-b/ks-se-2024-2/672022226-daniell:v.0.1"] 
   - name: 'gcr.io/cloud-builders/gcloud' 
     args:
     - 'run' 
     - 'deploy' 
-    - 'daniel-672022226' 
+    - 'daniell-672022226' 
     - '--image' 
-    - 'asia-southeast2-docker.pkg.dev/sat-kapita-selekta-b/ks-se-2024-2/672022226-daniel:v.0.1' 
+    - 'asia-southeast2-docker.pkg.dev/sat-kapita-selekta-b/ks-se-2024-2/672022226-daniell:v.0.1' 
     - '--region' 
     - 'asia-southeast2' 
     - '--platform' 
