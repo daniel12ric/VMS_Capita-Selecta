@@ -185,7 +185,6 @@ def vendor_pesan():
     order = order_model.get_all()
     return render_template('pesan_vendor.html', order=order)
 
-#
 @vendor_bp.route('/pesanan_admin')
 def admin_pesan():
     if not check_login()or not is_admin():
@@ -193,7 +192,6 @@ def admin_pesan():
     order = order_model.get_all()
     return render_template('pesan_admin.html', order=order)
 
-#
 @vendor_bp.route("/get-bank-list", methods=["GET"])
 def get_bank():
     if not check_login() or not is_admin():

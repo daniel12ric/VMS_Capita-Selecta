@@ -33,7 +33,7 @@ class VendorModel:
                 "_id": request.form.get('_id'),
                 "partnerType": request.form.get('partnerType'),
                 "vendorName": request.form.get('vendorName'),
-                "unitUsaha": request.form.get('unitUsaha'), #it/bisnis/finance/dll
+                "unitUsaha": request.form.get('unitUsaha'), 
                 "address": request.form.get('address'),
                 "country": request.form.get('country'),
                 "province": request.form.get('province'),
@@ -41,38 +41,41 @@ class VendorModel:
                 "emailCompany": request.form.get('emailCompany'),
                 "website": request.form.get('website'),
                 "noNPWP": request.form.get('noNPWP'),
-                "activeStatus": request.form.get('activeStatus'), #y/t
-                "supportingEquipment": [
-                {
-                    "toolType": request.form.get('toolType'), #(laptop,hp)
-                    "count": request.form.get('count'), #angka
-                    "merk": request.form.get('merk'), #laptop = merk-merk laptop , hp = merk-merk hp
-                    "condition": request.form.get('condition'), #(new/bekas)
-                }
-                ],
-                "pic": [
-                {
-                    "username": request.form.get('username'),
-                    "name": request.form.get('name'),
-                    "email": request.form.get('email'),
-                    "noTelp": request.form.get('noTelp'),
-                }
-                ], 
-                "accountBank": [
-                {
-                    "bankCode": request.form.get('bankCode'),
-                    "bankName": request.form.get('bankName'),
-                    "accountNumber": request.form.get('accountNumber'),
-                    "accountName": request.form.get('accountName'),
-                }
-                ],
-                "change": {
-                    "createDate": datetime.utcnow(),
-                    "createUser": username,
-                    "updateUser": username,
-                    "updateDate": datetime.utcnow()
-                }
-            }
+                "activeStatus": request.form.get('activeStatus'),
+                "supportingEquipment": [],
+                "accountBank": [],
+                "pic": []
+            } 
+            i = 0
+            while request.form.get(f"supportingEquipment[{i}][toolType]"):
+                vendor_data["supportingEquipment"].append({
+                    "toolType": request.form.get(f"supportingEquipment[{i}][toolType]"),
+                    "count": request.form.get(f"supportingEquipment[{i}][count]"),
+                    "merk": request.form.get(f"supportingEquipment[{i}][merk]"),
+                    "condition": request.form.get(f"supportingEquipment[{i}][condition]")
+                })
+                i += 1
+
+            i = 0
+            while request.form.get(f"accountBank[{i}][bankCode]"):
+                vendor_data["accountBank"].append({
+                    "bankCode": request.form.get(f"accountBank[{i}][bankCode]"),
+                    "bankName": request.form.get(f"accountBank[{i}][bankName]"),
+                    "accountNumber": request.form.get(f"accountBank[{i}][accountNumber]"),
+                    "accountName": request.form.get(f"accountBank[{i}][accountName]")
+                })
+                i += 1
+            
+            i = 0
+            while request.form.get(f"pic[{i}][username]"):
+                vendor_data["pic"].append({
+                    "username": request.form.get(f"pic[{i}][username]"),
+                    "name": request.form.get(f"pic[{i}][name]"),
+                    "email": request.form.get(f"pic[{i}][email]"),
+                    "noTelp": request.form.get(f"pic[{i}][noTelp]")
+                })
+                i += 1
+                
             required_fields = ['_id', 'partnerType', 'vendorName', 'emailCompany']
             for field in required_fields:
                 if not vendor_data.get(field):
