@@ -143,14 +143,14 @@
                         const toast = document.getElementById('toast');
                         const toastMessage = document.getElementById('toast-message');
                         if (data.success) {
+                            toastMessage.textContent = data.message || "Failed to delete bank.";
+                            toast.classList.add('toast-error');
+                            showToast();
+                        } else {
                             toastMessage.textContent = data.message || "Bank deleted successfully.";
                             toast.classList.add('toast-success');
                             showToast();
                             location.reload();
-                        } else {
-                            toastMessage.textContent = data.message || "Failed to delete bank.";
-                            toast.classList.add('toast-error');
-                            showToast();
                         }
                     })
                     .catch(error => {
