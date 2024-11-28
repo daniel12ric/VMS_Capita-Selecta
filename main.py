@@ -100,5 +100,5 @@ def logout():
         session.pop('session_id', None)
     return redirect('/login')
 
-if __name__ == "__main__" :
-    app.run(debug=True)
+# if __name__ == "__main__" :
+#     app.run(debug=True)

@@ -118,6 +118,10 @@
                                                 data-bankName="{{ vendor['accountBank'][0]['bankName'] }}"
                                                 data-accountNumber="{{ vendor['accountBank'][0]['accountNumber'] }}"
                                                 data-accountName="{{ vendor['accountBank'][0]['accountName'] }}"
+                                                data-picusername="{{ vendor['pic'][0]['username'] }}"
+                                                data-picname="{{ vendor['pic'][0]['name'] }}"
+                                                data-picemail="{{ vendor['pic'][0]['email'] }}"
+                                                data-picnoTelp="{{ vendor['pic'][0]['noTelp'] }}"
                                                 data-status="{{ vendor['activeStatus'] }}">
                                                 <i class="fas fa-eye"></i>
                                             </button>
@@ -174,37 +178,66 @@
         
                 modalBody.innerHTML = `
                     <div class="row">
-                        <div class="col-6">
-                            <h5><b>Vendor Information</b></h5>
-                            <strong>Vendor Name:</strong> ${vendorName}<br>
-                            <strong>Partner Type:</strong> ${button.getAttribute('data-partner-type')}<br>
-                            <strong>Unit Usaha:</strong> ${button.getAttribute('data-unit-usaha')}<br>
-                            <strong>Address:</strong> ${button.getAttribute('data-address')}<br>
-                            <strong>Country:</strong> ${button.getAttribute('data-country')}<br>
-                            <strong>Province:</strong> ${button.getAttribute('data-province')}<br>
-                            <strong>Phone:</strong> ${button.getAttribute('data-telp')}<br>
-                            <strong>Email:</strong> ${button.getAttribute('data-email')}<br>
-                            <strong>Website:</strong> ${button.getAttribute('data-website')}<br>
-
+                        <div class="col-md-6">
+                            <div class="card mb-3">
+                                <div class="card-header bg-primary text-white">
+                                    <h5 class="mb-0"><b>Vendor Information</b></h5>
+                                </div>
+                                <div class="card-body">
+                                    <p><strong>Vendor Name:</strong> ${vendorName}</p>
+                                    <p><strong>Partner Type:</strong> ${button.getAttribute('data-partner-type')}</p>
+                                    <p><strong>Unit Usaha:</strong> ${button.getAttribute('data-unit-usaha')}</p>
+                                    <p><strong>Address:</strong> ${button.getAttribute('data-address')}</p>
+                                    <p><strong>Country:</strong> ${button.getAttribute('data-country')}</p>
+                                    <p><strong>Province:</strong> ${button.getAttribute('data-province')}</p>
+                                    <p><strong>Phone:</strong> ${button.getAttribute('data-telp')}</p>
+                                    <p><strong>Email:</strong> ${button.getAttribute('data-email')}</p>
+                                    <p><strong>Website:</strong> ${button.getAttribute('data-website')}</p>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-6"> 
-                            <br><br><br><br><br><br>  
-                            <h5><b>User Information</b></h5>
-                            <strong>Create User:</strong> ${button.getAttribute('data-create-user')}<br>
-                            <strong>Create Date:</strong> ${button.getAttribute('data-create-date')}<br>
-                            <strong>Update User:</strong> ${button.getAttribute('data-update-user')}<br>
-                            <strong>Update Date:</strong> ${button.getAttribute('data-update-date')}<br>
+                        <div class="col-md-6">
+                            <div class="card mb-3">
+                                <div class="card-header bg-info text-white">
+                                    <h5 class="mb-0"><b>Create Information</b></h5>
+                                </div>
+                                <div class="card-body">
+                                    <p><strong>Create User:</strong> ${button.getAttribute('data-create-user')}</p>
+                                    <p><strong>Create Date:</strong> ${button.getAttribute('data-create-date')}</p>
+                                    <p><strong>Update User:</strong> ${button.getAttribute('data-update-user')}</p>
+                                    <p><strong>Update Date:</strong> ${button.getAttribute('data-update-date')}</p>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-md-12 mt-3">  
-                            <h5><b>Bank Information</b></h5>  
-                            <strong>Bank Code:</strong> ${button.getAttribute('data-bankCode')}<br>
-                            <strong>Bank Name:</strong> ${button.getAttribute('data-bankName')}<br>
-                            <strong>Account Number:</strong> ${button.getAttribute('data-accountNumber')}<br>
-                            <strong>Account Name:</strong> ${button.getAttribute('data-accountName')}<br>
+                        <div class="col-md-6">
+                            <div class="card mb-3">
+                                <div class="card-header bg-success text-white">
+                                    <h5 class="mb-0"><b>PIC Information</b></h5>
+                                </div>
+                                <div class="card-body">
+                                    <p><strong>Username:</strong> ${button.getAttribute('data-picusername')}</p>
+                                    <p><strong>Name:</strong> ${button.getAttribute('data-picname')}</p>
+                                    <p><strong>Email:</strong> ${button.getAttribute('data-picemail')}</p>
+                                    <p><strong>Phone:</strong> ${button.getAttribute('data-picnoTelp')}</p>
+                                </div>
+                            </div>
                         </div>
-
+                        <div class="col-md-6">
+                            <div class="card mb-3">
+                                <div class="card-header bg-warning text-white">
+                                    <h5 class="mb-0"><b>Bank Information</b></h5>
+                                </div>
+                                <div class="card-body">
+                                    <p><strong>Bank Code:</strong> ${button.getAttribute('data-bankCode')}</p>
+                                    <p><strong>Bank Name:</strong> ${button.getAttribute('data-bankName')}</p>
+                                    <p><strong>Account Number:</strong> ${button.getAttribute('data-accountNumber')}</p>
+                                    <p><strong>Account Name:</strong> ${button.getAttribute('data-accountName')}</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 `;
+
         
                 modal.style.display = 'block';
             });
