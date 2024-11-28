@@ -10,7 +10,6 @@ ENV PATH="opt/venv/bin:$PATH"
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 
-
 #Operational Stage
 FROM python:3.12.3-slim-bullseye
 RUN apt-get update -y

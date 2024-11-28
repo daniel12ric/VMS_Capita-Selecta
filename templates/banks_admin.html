@@ -61,41 +61,43 @@
         </ul>
         <div class="container-fluid">
             <div class="card shadow mt-4">
-                <div class="card-header py-3 d-flex justify-content-between">
+                <div class="card-header py-3 d-flex justify-content-between align-items-center">
                     <h6 class="m-0 font-weight-bold" style="color: #D41A1A;">Bank List</h6>
                     <a href="/add-bank" class="btn btn-success btn-sm">
                         <i class="fas fa-plus"></i> Tambah Bank
                     </a>
                 </div>
                 <div class="card-body">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Description</th>
-                                <th>Created By</th>
-                                <th>Created Date</th>
-                                <th>Updated By</th>
-                                <th>Updated Date</th>
-                                <th>Status</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="bank-table">                      
-                        </tbody>
-                    </table>
-                    
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Description</th>
+                                    <th>Created By</th>
+                                    <th>Created Date</th>
+                                    <th>Updated By</th>
+                                    <th>Updated Date</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="bank-table"></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <div id="toast-container" style="position: fixed; top: 20px; right: 20px; z-index: 1050;">
-        <div id="toast" class="toast" style="display: none;">
+
+    <div id="toast-container">
+        <div id="toast" class="toast">
             <div class="toast-body">
                 <span id="toast-message"></span>
             </div>
         </div>
     </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             fetch('/get-bank')
@@ -104,6 +106,7 @@
                     const table = document.getElementById('bank-table');
                     table.innerHTML = '';
                     data.forEach(bank => {
+                        const statusBadge = bank.activeStatus === 'Y' ? 'badge-success' : 'badge-danger';
                         table.innerHTML += `
                             <tr>
                                 <td>${bank._id}</td>
@@ -112,7 +115,9 @@
                                 <td>${new Date(bank.setup.createDate).toLocaleString()}</td>
                                 <td>${bank.setup.updateUser}</td>
                                 <td>${new Date(bank.setup.updateDate).toLocaleString()}</td>
-                                <td>${bank.activeStatus}</td>
+                                <td>
+                                    <span class="badge ${statusBadge}">${bank.activeStatus}</span>
+                                </td>
                                 <td>
                                     <a href="/edit-bank/${bank._id}" class="btn btn-warning btn-sm">
                                         <i class="fas fa-pencil-alt"></i>
@@ -124,49 +129,48 @@
                             </tr>
                         `;
                     });
+                })
+                .catch(error => {
+                    console.error('Error fetching bank data:', error);
                 });
         });
 
         function deleteBank(bankId) {
-
-            fetch(`/delete-bank/${bankId}`, { method: 'DELETE' })
-                .then(response => response.json())
-                .then(data => {
-                    const toast = document.getElementById('toast');
-                    const toastMessage = document.getElementById('toast-message');
-    
-                    if (data.success) {
-                        toastMessage.textContent = data.message || "Gagal menghapus bank.";
+            if (confirm("Are you sure you want to delete this bank?")) {
+                fetch(`/delete-bank/${bankId}`, { method: 'DELETE' })
+                    .then(response => response.json())
+                    .then(data => {
+                        const toast = document.getElementById('toast');
+                        const toastMessage = document.getElementById('toast-message');
+                        if (data.success) {
+                            toastMessage.textContent = data.message || "Bank deleted successfully.";
+                            toast.classList.add('toast-success');
+                            showToast();
+                            location.reload();
+                        } else {
+                            toastMessage.textContent = data.message || "Failed to delete bank.";
+                            toast.classList.add('toast-error');
+                            showToast();
+                        }
+                    })
+                    .catch(error => {
+                        const toast = document.getElementById('toast');
+                        const toastMessage = document.getElementById('toast-message');
+                        toastMessage.textContent = "Error: " + error.message;
                         toast.classList.add('toast-error');
                         showToast();
-                    } else {
-                        toastMessage.textContent = data.message || "Bank berhasil dihapus.";
-                        toast.classList.add('toast-success');
-                        showToast();
-                        location.reload(); 
-
-                    }
-                })
-                .catch(error => {
-                    const toast = document.getElementById('toast');
-                    const toastMessage = document.getElementById('toast-message');
-                    toastMessage.textContent = "Terjadi kesalahan: " + error.message;
-                    toast.classList.add('toast-error');
-                    showToast();
-                });
+                    });
+            }
         }
-        
 
         function showToast() {
             const toast = document.getElementById('toast');
             toast.style.display = 'block';
-        
             setTimeout(() => {
                 toast.style.display = 'none';
                 toast.classList.remove('toast-success', 'toast-error');
-            }, 5000);
+            }, 3000);
         }
-        
     </script>
 </body>
 </html>

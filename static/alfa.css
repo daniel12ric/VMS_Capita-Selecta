@@ -60,3 +60,28 @@ body{
     background-color: #dc3545; 
 }
 
+#accordionSidebar {
+    transition: all 0.3s ease;
+}
+#accordionSidebar.toggled {
+    margin-left: -250px;
+}
+
+#toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1050;
+}
+.toast {
+    display: none;
+    padding: 10px;
+    color: #fff;
+    border-radius: 5px;
+}
+.toast-success {
+    background-color: #28a745;
+}
+.toast-error {
+    background-color: #dc3545;
+}

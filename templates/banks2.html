@@ -55,26 +55,27 @@
         </ul>
         <div class="container-fluid">
             <div class="card shadow mt-4">
-                <div class="card-header py-3 d-flex justify-content-between">
+                <div class="card-header py-3 d-flex justify-content-between align-items-center">
                     <h6 class="m-0 font-weight-bold" style="color: #D41A1A;">Bank List</h6>
                 </div>
                 <div class="card-body">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>ID <button onclick="sortTable(0)" class="btn btn-link p-0"><i class="fas fa-sort"></i></button></th>
-                                <th>Description <button onclick="sortTable(1)" class="btn btn-link p-0"><i class="fas fa-sort"></i></button></th>
-                                <th>Created By <button onclick="sortTable(2)" class="btn btn-link p-0"><i class="fas fa-sort"></i></button></th>
-                                <th>Created Date <button onclick="sortTable(3)" class="btn btn-link p-0"><i class="fas fa-sort"></i></button></th>
-                                <th>Updated By <button onclick="sortTable(4)" class="btn btn-link p-0"><i class="fas fa-sort"></i></button></th>
-                                <th>Updated Date <button onclick="sortTable(5)" class="btn btn-link p-0"><i class="fas fa-sort"></i></button></th>
-                                <th>Status <button onclick="sortTable(6)" class="btn btn-link p-0"><i class="fas fa-sort"></i></button></th>
-                            </tr>
-                        </thead>                        
-                        <tbody id="bank-table">                      
-                        </tbody>
-                    </table>
-                    
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>ID <button onclick="sortTable(0)" class="btn btn-link p-0"><i class="fas fa-sort"></i></button></th>
+                                    <th>Description <button onclick="sortTable(1)" class="btn btn-link p-0"><i class="fas fa-sort"></i></button></th>
+                                    <th>Created By <button onclick="sortTable(2)" class="btn btn-link p-0"><i class="fas fa-sort"></i></button></th>
+                                    <th>Created Date <button onclick="sortTable(3)" class="btn btn-link p-0"><i class="fas fa-sort"></i></button></th>
+                                    <th>Updated By <button onclick="sortTable(4)" class="btn btn-link p-0"><i class="fas fa-sort"></i></button></th>
+                                    <th>Updated Date <button onclick="sortTable(5)" class="btn btn-link p-0"><i class="fas fa-sort"></i></button></th>
+                                    <th>Status <button onclick="sortTable(6)" class="btn btn-link p-0"><i class="fas fa-sort"></i></button></th>
+                                </tr>
+                            </thead>                        
+                            <tbody id="bank-table">                      
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -88,6 +89,7 @@
                     const table = document.getElementById('bank-table');
                     table.innerHTML = '';
                     data.forEach(bank => {
+                        const statusBadge = bank.activeStatus === 'Y' ? 'badge-success' : 'badge-danger';
                         table.innerHTML += `
                             <tr>
                                 <td>${bank._id}</td>
@@ -96,7 +98,11 @@
                                 <td>${new Date(bank.setup.createDate).toLocaleString()}</td>
                                 <td>${bank.setup.updateUser}</td>
                                 <td>${new Date(bank.setup.updateDate).toLocaleString()}</td>
-                                <td>${bank.activeStatus}</td>
+                                <td>
+                                    <span class="badge ${statusBadge}">
+                                        ${bank.activeStatus}
+                                    </span>
+                                </td>
                             </tr>
                         `;
                     });

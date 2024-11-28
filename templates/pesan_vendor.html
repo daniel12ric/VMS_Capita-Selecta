@@ -55,29 +55,30 @@
         </ul>
         <div class="container-fluid">
             <div class="card shadow mt-4">
-                <div class="card-header py-3 d-flex justify-content-between">
+                <div class="card-header py-3 d-flex justify-content-between align-items-center">
                     <h6 class="m-0 font-weight-bold" style="color: #D41A1A;">Order List</h6>
                     <a href="/add-order" class="btn btn-success btn-sm">
                         <i class="fas fa-plus"></i> Tambah Order
                     </a>
                 </div>
                 <div class="card-body">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Order Name</th>
-                                <th>Count</th>
-                                <th>Created By</th>
-                                <th>Created Date</th>
-                                <th>Updated By</th>
-                                <th>Updated Date</th>
-                            </tr>
-                        </thead>
-                        <tbody id="order-table">                      
-                        </tbody>
-                    </table>
-                    
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Order Name</th>
+                                    <th>Count</th>
+                                    <th>Created By</th>
+                                    <th>Created Date</th>
+                                    <th>Updated By</th>
+                                    <th>Updated Date</th>
+                                </tr>
+                            </thead>
+                            <tbody id="order-table">                      
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

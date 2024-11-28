@@ -61,36 +61,36 @@
         </ul>
         <div class="container-fluid">
             <div class="card shadow mt-4">
-                <div class="card-header py-3 d-flex justify-content-between">
+                <div class="card-header py-3 d-flex justify-content-between align-items-center">
                     <h6 class="m-0 font-weight-bold" style="color: #D41A1A;">Branch List</h6>
                     <a href="/add-branch" class="btn btn-success btn-sm">
                         <i class="fas fa-plus"></i> Tambah Branch
                     </a>
                 </div>
                 <div class="card-body">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Description</th>
-                                <th>Created By</th>
-                                <th>Created Date</th>
-                                <th>Updated By</th>
-                                <th>Updated Date</th>
-                                <th>Status</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="branch-table">                      
-                        </tbody>
-                    </table>
-                    
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead class="thead-light">                        
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Description</th>
+                                    <th>Created By</th>
+                                    <th>Created Date</th>
+                                    <th>Updated By</th>
+                                    <th>Updated Date</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="branch-table"></tbody>                   
+                        </table>     
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <div id="toast-container" style="position: fixed; top: 20px; right: 20px; z-index: 1050;">
-        <div id="toast" class="toast" style="display: none;">
+    <div id="toast-container">
+        <div id="toast" class="toast" >
             <div class="toast-body">
                 <span id="toast-message"></span>
             </div>
@@ -105,6 +105,7 @@
                     const table = document.getElementById('branch-table');
                     table.innerHTML = '';
                     data.forEach(branch => {
+                        const statusBadge = branch.activeStatus === 'Y' ? 'badge-success' : 'badge-danger';
                         table.innerHTML += `
                             <tr>
                                 <td>${branch._id}</td>
@@ -113,7 +114,11 @@
                                 <td>${new Date(branch.setup.createDate).toLocaleString()}</td>
                                 <td>${branch.setup.updateUser}</td>
                                 <td>${new Date(branch.setup.updateDate).toLocaleString()}</td>
-                                <td>${branch.activeStatus}</td>
+                                <td>
+                                    <span class="badge ${statusBadge}">
+                                        ${branch.activeStatus}
+                                    </span>
+                                </td>
                                 <td>
                                     <a href="/edit-branch/${branch._id}" class="btn btn-warning btn-sm">
                                         <i class="fas fa-pencil-alt"></i>

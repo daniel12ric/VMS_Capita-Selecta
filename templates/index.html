@@ -63,6 +63,9 @@
         <div id="content-wrapper" class="d-flex flex-column">
             <div id="content">
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
                     <h3 class="h3 mb-0 text-gray-800">Daniel Darren Richardo</h3>
                 </nav>
 
@@ -88,5 +91,11 @@
     <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="/static/vendor/jquery-easing/jquery.easing.min.js"></script>
     <script src="/static/js/sb-admin-2.min.js"></script>
+    <script>
+        document.getElementById('sidebarToggleTop').addEventListener('click', function () {
+            const sidebar = document.getElementById('accordionSidebar');
+            sidebar.classList.toggle('toggled');
+        });
+    </script>
 </body>
 </html>
