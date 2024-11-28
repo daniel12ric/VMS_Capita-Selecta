@@ -44,7 +44,13 @@ class VendorModel:
                 "activeStatus": request.form.get('activeStatus'),
                 "supportingEquipment": [],
                 "accountBank": [],
-                "pic": []
+                "pic": [],
+                "change": {
+                    "createDate": datetime.utcnow(),
+                    "createUser": username,
+                    "updateUser": username,
+                    "updateDate": datetime.utcnow()
+                }
             } 
             i = 0
             while request.form.get(f"supportingEquipment[{i}][toolType]"):
@@ -56,25 +62,21 @@ class VendorModel:
                 })
                 i += 1
 
-            i = 0
-            while request.form.get(f"accountBank[{i}][bankCode]"):
+            while request.form.get(f"accountBank[{0}][bankCode]"):
                 vendor_data["accountBank"].append({
-                    "bankCode": request.form.get(f"accountBank[{i}][bankCode]"),
-                    "bankName": request.form.get(f"accountBank[{i}][bankName]"),
-                    "accountNumber": request.form.get(f"accountBank[{i}][accountNumber]"),
-                    "accountName": request.form.get(f"accountBank[{i}][accountName]")
+                    "bankCode": request.form.get(f"accountBank[{0}][bankCode]"),
+                    "bankName": request.form.get(f"accountBank[{0}][bankName]"),
+                    "accountNumber": request.form.get(f"accountBank[{0}][accountNumber]"),
+                    "accountName": request.form.get(f"accountBank[{0}][accountName]")
                 })
-                i += 1
-            
-            i = 0
-            while request.form.get(f"pic[{i}][username]"):
+
+            while request.form.get(f"pic[{0}][username]"):
                 vendor_data["pic"].append({
-                    "username": request.form.get(f"pic[{i}][username]"),
-                    "name": request.form.get(f"pic[{i}][name]"),
-                    "email": request.form.get(f"pic[{i}][email]"),
-                    "noTelp": request.form.get(f"pic[{i}][noTelp]")
+                    "username": request.form.get(f"pic[{0}][username]"),
+                    "name": request.form.get(f"pic[{0}][name]"),
+                    "email": request.form.get(f"pic[{0}][email]"),
+                    "noTelp": request.form.get(f"pic[{0}][noTelp]")
                 })
-                i += 1
                 
             required_fields = ['_id', 'partnerType', 'vendorName', 'emailCompany']
             for field in required_fields:
