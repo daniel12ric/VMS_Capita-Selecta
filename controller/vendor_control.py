@@ -29,6 +29,7 @@ class VendorModel:
 
     def create(self, username):
         try:
+                
             vendor_data = {
                 "_id": request.form.get('_id'),
                 "partnerType": request.form.get('partnerType'),
@@ -42,15 +43,15 @@ class VendorModel:
                 "website": request.form.get('website'),
                 "noNPWP": request.form.get('noNPWP'),
                 "activeStatus": request.form.get('activeStatus'),
-                "supportingEquipment": [],
-                "accountBank": [],
-                "pic": [],
                 "change": {
                     "createDate": datetime.utcnow(),
                     "createUser": username,
                     "updateUser": username,
                     "updateDate": datetime.utcnow()
-                }
+                },
+                "supportingEquipment": [],
+                "accountBank": [],
+                "pic": []
             } 
             i = 0
             while request.form.get(f"supportingEquipment[{i}][toolType]"):
@@ -61,22 +62,24 @@ class VendorModel:
                     "condition": request.form.get(f"supportingEquipment[{i}][condition]")
                 })
                 i += 1
-
-            while request.form.get(f"accountBank[{0}][bankCode]"):
+            i=0
+            while request.form.get(f"accountBank[{i}][bankCode]"):
                 vendor_data["accountBank"].append({
-                    "bankCode": request.form.get(f"accountBank[{0}][bankCode]"),
-                    "bankName": request.form.get(f"accountBank[{0}][bankName]"),
-                    "accountNumber": request.form.get(f"accountBank[{0}][accountNumber]"),
-                    "accountName": request.form.get(f"accountBank[{0}][accountName]")
+                    "bankCode": request.form.get(f"accountBank[{i}][bankCode]"),
+                    "bankName": request.form.get(f"accountBank[{i}][bankName]"),
+                    "accountNumber": request.form.get(f"accountBank[{i}][accountNumber]"),
+                    "accountName": request.form.get(f"accountBank[{i}][accountName]")
                 })
-
-            while request.form.get(f"pic[{0}][username]"):
+                i += 1
+            i=0
+            while request.form.get(f"pic[{i}][username]"):
                 vendor_data["pic"].append({
-                    "username": request.form.get(f"pic[{0}][username]"),
-                    "name": request.form.get(f"pic[{0}][name]"),
-                    "email": request.form.get(f"pic[{0}][email]"),
-                    "noTelp": request.form.get(f"pic[{0}][noTelp]")
+                    "username": request.form.get(f"pic[{i}][username]"),
+                    "name": request.form.get(f"pic[{i}][name]"),
+                    "email": request.form.get(f"pic[{i}][email]"),
+                    "noTelp": request.form.get(f"pic[{i}][noTelp]")
                 })
+                i += 1
                 
             required_fields = ['_id', 'partnerType', 'vendorName', 'emailCompany']
             for field in required_fields:
