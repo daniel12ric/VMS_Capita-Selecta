@@ -125,6 +125,12 @@
         
 
         function deleteUser(username) {
+            if (username === "admin") {
+                toastMessage.textContent = "Cannot delete the admin user.";
+                toast.classList.add('toast-error');
+                showToast();
+                
+            }
             fetch(`/delete-akun/${username}`, { method: 'POST' })
                 .then(response => response.json())
                 .then(data => {
