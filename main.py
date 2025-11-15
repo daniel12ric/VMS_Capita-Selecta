@@ -9,7 +9,6 @@ from routes.branch import branch_bp
 from routes.vendor import vendor_bp
 from routes.akun import akun_bp
 
-
 akunColl = db.akunColl
 bankColl = db.bankColl
 branchColl = db.branchColl
@@ -99,3 +98,6 @@ def logout():
         r.delete(session_id)
         session.pop('session_id', None)
     return redirect('/login')
+
+if __name__ == "__main__":
+    app.run(debug=True, host='0.0.0.0', port=5000)

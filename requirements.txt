@@ -6,4 +6,6 @@ gunicorn
 logging
 redis
 bcrypt
+os
+dotenv
 

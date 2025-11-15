@@ -29,7 +29,6 @@ def is_vendor():
         return user_data and user_data['roleid'] == 'vendor'
     return False
 
-
 @vendor_bp.route("/add-vendor", methods=["GET", "POST"])
 def vendor_create():
     if not check_login() or not is_admin():
@@ -149,7 +148,6 @@ def update_vendor(vendor_id):
         except Exception as e:
             flash(f"Error: {str(e)}", "danger")
             return render_template("edit-vendor.html", action="update", vendor=vendor)
-
 
 @vendor_bp.route("/delete-vendor/<vendor_id>", methods=["DELETE"])
 def delete_vendor(vendor_id):
